@@ -6,6 +6,7 @@ import { ChargeCardDetails } from '../dto/charge.card';
 import { PaymentsService } from './payments.service';
 import { Client } from '../database/entities/client';
 import { Payment } from '../database/entities/payment';
+import { Chain } from '@circle-fin/circle-sdk';
 
 @Controller('payments')
 export class PaymentsController {
@@ -57,6 +58,14 @@ export class PaymentsController {
     return this.paymentsService.getPayment(params.id)
   }
 
+  @Post('transfer')
+  async makeTransfer() {
+    await this.circleApi.makeTransfer(
+      '10.00',
+      '0x86AF458B3a817d42Eece5D8afB10455e3Ca202d7',
+      Chain.Eth
+    )
+  }
   // @Get('public-key')
   // async returnPublicKey() {
   //   return this.circleApi.getCirclePublicKey();

@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import {
-  CardCreationRequest,
+  CardCreationRequest, Chain,
   Circle,
   CircleEnvironments,
-  FiatMoneyUsd, MetadataPayment, PaymentCreationRequest, PaymentCreationRequestVerificationEnum,
+  FiatMoneyUsd, MetadataPayment, Money, PaymentCreationRequest, PaymentCreationRequestVerificationEnum,
   Source,
-  SourceTypeEnum,
+  SourceTypeEnum, TransferCreationRequest,
 } from '@circle-fin/circle-sdk';
 import { CreateCardDetails } from '../dto/create.card';
 import openpgp from '../utils/openpgp';
@@ -91,5 +91,25 @@ export class CircleApiService {
     const publicKeyResp = await this.circleApi.encryption.getPublicKey();
 
     return publicKeyResp.data.data;
+  }
+
+  async makeTransfer(amount: string, address: string, chain: Chain) {
+    const payload: TransferCreationRequest = {
+      idempotencyKey: uuidv4(),
+      amount: { amount, currency: 'USD' } as Money,
+      source: {
+        type: 'wallet',
+        id: process.env.MASTER_WALLET_ID,
+      },
+      destination: {
+        type: 'blockchain',
+        address,
+        chain,
+      },
+    };
+
+    const resp = await this.circleApi.transfers.createTransfer(payload);
+    console.log(resp.data)
+    return resp.data;
   }
 }

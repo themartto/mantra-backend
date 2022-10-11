@@ -57,5 +57,10 @@ export class PaymentsService {
   async updatePaymentStatus(paymentId: string, status: string) {
     const payment = await this.getPayment(paymentId);
     payment.status = status;
+    await this.paymentRepository.save(payment);
+  }
+
+  async makeTransfer() {
+
   }
 }
