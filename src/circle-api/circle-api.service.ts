@@ -45,7 +45,7 @@ export class CircleApiService {
       keyId,
       metadata: details.metadata,
     };
-    // TODO validate api call
+    // TODO handle api call errors
     const createCardResp = await this.circleApi.cards.createCard(createCardPayload);
 
     return createCardResp.data.data.id;
@@ -109,7 +109,7 @@ export class CircleApiService {
     };
 
     const resp = await this.circleApi.transfers.createTransfer(payload);
-    console.log(resp.data)
+
     return resp.data;
   }
 }

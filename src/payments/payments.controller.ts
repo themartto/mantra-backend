@@ -66,15 +66,11 @@ export class PaymentsController {
       Chain.Eth
     )
   }
-  // @Get('public-key')
-  // async returnPublicKey() {
-  //   return this.circleApi.getCirclePublicKey();
-  // }
-  //
-  // @Get('get-all-clients')
-  // async getAllClients() {
-  //   return this.paymentsService.getAllClients();
-  // }
+
+  @Get('public-key')
+  async returnPublicKey() {
+    return this.circleApi.getCirclePublicKey();
+  }
 }
 
 

@@ -60,7 +60,7 @@ export class PaymentsService {
     await this.paymentRepository.save(payment);
   }
 
-  async makeTransfer() {
-
-  }
+  // async makeTransfer() {
+  //
+  // }
 }

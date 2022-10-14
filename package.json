@@ -29,6 +29,8 @@
     "@nestjs/typeorm": "^9.0.1",
     "class-validator": "^0.13.2",
     "dotenv": "^16.0.2",
+    "ethers": "^5.7.1",
+    "mo": "^1.7.3",
     "module": "^1.2.5",
     "mysql2": "^2.3.3",
     "openpgp": "^5.5.0",
