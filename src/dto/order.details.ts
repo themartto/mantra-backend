@@ -4,8 +4,10 @@ import { MetadataCardAndAch } from '@circle-fin/circle-sdk/src/generated/models/
 export class OrderDetails {
   amount: string
   keplrAddress: string
-  cardNumber: string
-  cardCvv: string
+  cardSecret: string
+  cardSecretKeyId: string
+  cvvSecret: string
+  cvvSecretKeyId
   expMonth: string
   expYear: string
   billingDetails: BillingDetails

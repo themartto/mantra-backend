@@ -27,22 +27,13 @@ export class CircleApiService {
 
   async createCard(details: CreateCardDetails): Promise<string> {
 
-    const cardDetails = {
-      number: details.number,
-      cvv: details.cvv,
-    };
-    const { encryptedMessage, keyId } = await openpgp.encrypt(
-      cardDetails,
-      await this.getCirclePublicKey(),
-    );
-
     const createCardPayload: CardCreationRequest = {
       idempotencyKey: uuidv4(),
       billingDetails: details.billingDetails,
-      encryptedData: encryptedMessage,
+      encryptedData: details.cardSecret,
       expMonth: parseInt(details.expMonth),
       expYear: parseInt(details.expYear),
-      keyId,
+      keyId: details.cardSecretKeyId,
       metadata: details.metadata,
     };
     // TODO handle api call errors
@@ -62,11 +53,6 @@ export class CircleApiService {
       type: SourceTypeEnum.Card,
     };
 
-    const { encryptedMessage, keyId } = await openpgp.encrypt(
-      { cvv: details.cardCvv },
-      await this.getCirclePublicKey(),
-    );
-
     const createPaymentPayload: PaymentCreationRequest = {
       idempotencyKey: uuidv4(),
       amount,
@@ -75,8 +61,8 @@ export class CircleApiService {
       description: details.description,
       channel: '',
       metadata: details.metadata,
-      encryptedData: encryptedMessage,
-      keyId: keyId,
+      encryptedData: details.cvvSecret,
+      keyId: details.cvvSecretKeyId,
       // autoCapture: false,
       // verificationFailureUrl: '',
       // verificationSuccessUrl: ''

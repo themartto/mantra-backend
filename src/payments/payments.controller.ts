@@ -19,8 +19,8 @@ export class PaymentsController {
   @Post('order')
   async order(@Body() orderDetails: OrderDetails) {
     const creditCardDetails: CreateCardDetails = {
-      number: orderDetails.cardNumber,
-      cvv: orderDetails.cardCvv,
+      cardSecret: orderDetails.cardSecret,
+      cardSecretKeyId: orderDetails.cardSecretKeyId,
       billingDetails: orderDetails.billingDetails,
       expMonth: orderDetails.expMonth,
       expYear: orderDetails.expYear,
@@ -37,7 +37,8 @@ export class PaymentsController {
     const chargeCardDetails: ChargeCardDetails = {
       amount: orderDetails.amount,
       cardId,
-      cardCvv: orderDetails.cardCvv,
+      cvvSecret: orderDetails.cvvSecret,
+      cvvSecretKeyId: orderDetails.cvvSecretKeyId,
       description: orderDetails.description,
       metadata: orderDetails.metadata,
     };
@@ -67,8 +68,8 @@ export class PaymentsController {
     )
   }
 
-  @Get('public-key')
-  async returnPublicKey() {
+  @Get('/get/publicKey')
+  async returnPublicKey(): Promise<any> {
     return this.circleApi.getCirclePublicKey();
   }
 }
