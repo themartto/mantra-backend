@@ -11,21 +11,19 @@ export class EthersService {
   constructor() {}
 
   async onModuleInit() {
-    // TODO move the hardcoded values
-    this.provider = new ethers.providers.WebSocketProvider('wss://goerli.infura.io/ws/v3/1e44b8c0d00d4bb7a9d66b8ea935a0a9');
+    this.provider = new ethers.providers.WebSocketProvider(process.env.CHAIN_WS);
 
     const  filter = {
-      address: '0x07865c6E87B9F70255377e024ace6630C1Eaa37F',
+      address: process.env.USDC_CONTRACT,
       topics: [
-        // the name of the event, parnetheses containing the data type of each event, no spaces
+        // event
         utils.id("Transfer(address,address,uint256)"),
-        null,
-        hexZeroPad('0x86AF458B3a817d42Eece5D8afB10455e3Ca202d7', 32)
+        null, // from
+        hexZeroPad(process.env.CHAIN_ADDRESS, 32) //to
+        // amount
       ]
     }
     this.provider.on(filter, (data) => {
-      // do whatever you want here
-      // I'm pretty sure this returns a promise, so don't forget to resolve it
       console.log(data);
       // {
       //   blockNumber: 7767041,
