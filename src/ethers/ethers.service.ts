@@ -34,8 +34,13 @@ export class EthersService {
     this.provider.on(filter, async (data) => {
       console.log(data);
 
-      const entry = await this.transferRepository.findOneBy({
-        txHash: data.transactionHash
+      let entry = await this.transferRepository.findOne({
+        where: {
+          txHash: data.transactionHash
+        },
+        relations: {
+          keplrAddress: true
+        }
       });
 
       if (entry) {
@@ -43,6 +48,7 @@ export class EthersService {
       }
 
       await this.transferRepository.save(entry);
+
       // {
       //   blockNumber: 7767041,
       //     blockHash: '0xee48bf3427a429442b91e2b68c7ed76c85bac0423ae85463c40a5e17c0e9a2c4',

@@ -59,13 +59,13 @@ export class PaymentsController {
     return this.paymentsService.getPayment(params.id)
   }
 
-  @Post('transfer')
-  async makeTransfer() {
+  @Post('transfer/:address')
+  async makeTransfer(@Param() params) {
     await this.circleApi.makeTransfer(
       '10.00',
       '0x86AF458B3a817d42Eece5D8afB10455e3Ca202d7',
       Chain.Eth,
-      ''
+      params.address
     )
   }
 

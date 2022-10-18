@@ -13,7 +13,7 @@ export class MantrachainService {
     this.mantrachain = await SDKFactory.init(
       {
         url: process.env.TENDERMINT_WS,
-        mnemonic: ''
+        mnemonic: 'material rare elegant alone hard equip know kite craft load insect season cream cruel excuse assault screen example witness addict antenna dawn junk tennis'
       }
     )
   }
