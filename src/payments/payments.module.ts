@@ -8,9 +8,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Payment } from '../database/entities/payment';
 import { Client } from '../database/entities/client';
 import { ClientsController } from './clients.controller';
+import { Transfer } from '../database/entities/transfer';
 
 @Module({
-  imports: [CircleApiModule, TypeOrmModule.forFeature([Client, Payment])],
+  imports: [CircleApiModule, TypeOrmModule.forFeature([Client, Payment, Transfer])],
   controllers: [ClientsController, PaymentsController, PaymentsStatusController],
   providers: [PaymentsService, CircleApiService],
 })

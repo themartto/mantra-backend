@@ -1,14 +1,22 @@
-import { Injectable, Provider } from '@nestjs/common';
-import { Contract, ethers, utils } from 'ethers';
+import { Injectable } from '@nestjs/common';
+import { ethers, utils } from 'ethers';
 import { JsonRpcProvider } from '@ethersproject/providers/src.ts/json-rpc-provider';
 import { hexZeroPad } from 'ethers/lib/utils';
+import { MantrachainService } from '../mantrachain/mantrachain.service';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Transfer } from '../database/entities/transfer';
 
 
 @Injectable()
 export class EthersService {
   provider: JsonRpcProvider
 
-  constructor() {}
+  constructor(
+    readonly mantrachainService: MantrachainService,
+    @InjectRepository(Transfer)
+    private transferRepository: Repository<Transfer>,
+  ) {}
 
   async onModuleInit() {
     this.provider = new ethers.providers.WebSocketProvider(process.env.CHAIN_WS);
@@ -23,8 +31,18 @@ export class EthersService {
         // amount
       ]
     }
-    this.provider.on(filter, (data) => {
+    this.provider.on(filter, async (data) => {
       console.log(data);
+
+      const entry = await this.transferRepository.findOneBy({
+        txHash: data.transactionHash
+      });
+
+      if (entry) {
+        entry.status = 'confirmed'
+      }
+
+      await this.transferRepository.save(entry);
       // {
       //   blockNumber: 7767041,
       //     blockHash: '0xee48bf3427a429442b91e2b68c7ed76c85bac0423ae85463c40a5e17c0e9a2c4',
@@ -41,8 +59,11 @@ export class EthersService {
       //   logIndex: 76
       // }
 
-      // mantrachainService.mintNewTokens()
-      // 50 mantra usdc
+      await this.mantrachainService.mintTokens(
+        entry.keplrAddress.keplrAddress,
+        data.topics[2],
+        data.transactionHash
+      )
     });
   }
 }

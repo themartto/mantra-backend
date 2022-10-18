@@ -64,7 +64,8 @@ export class PaymentsController {
     await this.circleApi.makeTransfer(
       '10.00',
       '0x86AF458B3a817d42Eece5D8afB10455e3Ca202d7',
-      Chain.Eth
+      Chain.Eth,
+      ''
     )
   }
 

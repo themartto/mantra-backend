@@ -3,22 +3,27 @@ import {
   CardCreationRequest, Chain,
   Circle,
   CircleEnvironments,
-  FiatMoneyUsd, MetadataPayment, Money, PaymentCreationRequest, PaymentCreationRequestVerificationEnum,
+  FiatMoneyUsd, Money, PaymentCreationRequest, PaymentCreationRequestVerificationEnum,
   Source,
   SourceTypeEnum, TransferCreationRequest,
 } from '@circle-fin/circle-sdk';
 import { CreateCardDetails } from '../dto/create.card';
-import openpgp from '../utils/openpgp';
 import { v4 as uuidv4 } from 'uuid';
 import { ChargeCardDetails } from '../dto/charge.card';
 import { PublicKey } from '@circle-fin/circle-sdk/src/generated/models/public-key';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Transfer } from '../database/entities/transfer';
+import { Client } from '../database/entities/client';
+
 
 @Injectable()
 export class CircleApiService {
 
   circleApi: Circle;
 
-  constructor() {
+  constructor(@InjectRepository(Transfer)
+  private transfersRepository: Repository<Transfer>,) {
     this.circleApi = new Circle(
       process.env.API_KEY,
       Boolean(process.env.DEV) ? CircleEnvironments.sandbox : CircleEnvironments.production,    // API base url
@@ -79,7 +84,7 @@ export class CircleApiService {
     return publicKeyResp.data.data;
   }
 
-  async makeTransfer(amount: string, address: string, chain: Chain) {
+  async makeTransfer(amount: string, address: string, chain: Chain, keplrAddress: string) {
     const payload: TransferCreationRequest = {
       idempotencyKey: uuidv4(),
       amount: { amount, currency: 'USD' } as Money,
@@ -95,6 +100,19 @@ export class CircleApiService {
     };
 
     const resp = await this.circleApi.transfers.createTransfer(payload);
+
+    const transferData = await this.circleApi.transfers.getTransfer(resp.data.data.id);
+
+    const client = new Client();
+    client.keplrAddress = keplrAddress;
+
+    const transfer = new Transfer();
+    transfer.transferId = transferData.data.data.id;
+    transfer.keplrAddress = client;
+    transfer.txHash = transferData.data.data.transactionHash;
+    transfer.status = transferData.data.data.status;
+
+    await this.transfersRepository.save(transfer);
 
     return resp.data;
   }

@@ -1,6 +1,7 @@
 import {TypeOrmModule} from "@nestjs/typeorm";
 import { Client } from './entities/client';
 import { Payment } from './entities/payment';
+import { Transfer } from './entities/transfer';
 
 export const postgresProvider = TypeOrmModule.forRoot({
   type: 'postgres',
@@ -9,6 +10,6 @@ export const postgresProvider = TypeOrmModule.forRoot({
   username: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  entities: [Client, Payment],
+  entities: [Client, Payment, Transfer],
   synchronize: true,
 })
