@@ -40,7 +40,14 @@ export class PaymentsService {
   }
 
   async getPayment(paymentId: string) {
-    return await this.paymentRepository.findOneBy({ paymentId })
+    return await this.paymentRepository.findOne({
+      where: {
+        paymentId: paymentId,
+      },
+      relations: {
+        keplrAddress: true
+      }
+    })
   }
 
   async getAllClientPayments(keplrAddress: string) {

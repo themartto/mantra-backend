@@ -104,9 +104,7 @@ export class CircleApiService {
     let transferData = await this.circleApi.transfers.getTransfer(resp.data.data.id);
 
     while (!transferData.data.data.transactionHash) {
-      setTimeout( async () => {
-        transferData = await this.circleApi.transfers.getTransfer(resp.data.data.id);
-      }, 5000)
+      transferData = await this.circleApi.transfers.getTransfer(resp.data.data.id);
     }
     const client = new Client();
     client.keplrAddress = keplrAddress;

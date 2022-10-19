@@ -10,22 +10,21 @@ const run = async () => {
   );
 
   const data: SubscriptionRequest = {
-    endpoint: 'https://0e15f565b1adb6.lhr.life/statuses/payment/update'
+    endpoint: 'https://6895f2c2ee6a93.lhr.life/statuses/payment/update'
   }
 
-  const resp = await circleApi.subscriptions.createSubscribtion(data);
+  // const resp = await circleApi.subscriptions.createSubscribtion(data);
   //
-  // const resp2 = await circleApi.subscriptions.listSubscriptions();
+  const resp = await circleApi.subscriptions.listSubscriptions();
+  //
+  // const resp3 = await circleApi.subscriptions.deleteSubscribtion(resp.data.data[0].id);
+  // const resp4 = await circleApi.subscriptions.deleteSubscribtion(resp.data.data[1].id);
+  // const resp5 = await circleApi.subscriptions.deleteSubscribtion(resp.data.data[2].id);
 
-  // const resp2 = await circleApi.subscriptions.deleteSubscribtion('b7c9e731-058e-4da1-b44a-e59ff621606f');
-  // const resp3 = await circleApi.subscriptions.deleteSubscribtion('b553286c-3c22-4eb0-84dd-73def38ebf51');
-  // const resp4 = await circleApi.subscriptions.deleteSubscribtion('c2f869dc-a6c0-4db7-bba5-5628bb1ed799');
-
-
-  // console.log(resp2.data.data[0].subscriptionDetails)
-  // console.log(resp2.data.data[1].subscriptionDetails)
-  // console.log(resp2.data.data[2].subscriptionDetails)
-  console.log(resp.data)
+  // console.log(resp.data.data[0].subscriptionDetails)
+  // console.log(resp.data.data[1].subscriptionDetails)
+  // console.log(resp.data.data[2].subscriptionDetails)
+  console.log(resp.data.data)
 };
 
 run();
