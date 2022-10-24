@@ -46,7 +46,7 @@ var run = function () { return __awaiter(void 0, void 0, void 0, function () {
             case 0:
                 circleApi = new circle_sdk_1.Circle(process.env.API_KEY, Boolean(process.env.DEV) ? circle_sdk_1.CircleEnvironments.sandbox : circle_sdk_1.CircleEnvironments.production);
                 data = {
-                    endpoint: 'https://2c4c3cf0c62e1c.lhr.life/statuses/payment/update'
+                    endpoint: 'https://bcc6e694d7536c.lhr.life/statuses/payment/update'
                 };
                 return [4 /*yield*/, circleApi.subscriptions.listSubscriptions()];
             case 1:
@@ -58,6 +58,7 @@ var run = function () { return __awaiter(void 0, void 0, void 0, function () {
                 console.log(resp.data.data[0].subscriptionDetails);
                 console.log(resp.data.data[1].subscriptionDetails);
                 console.log(resp.data.data[2].subscriptionDetails);
+                console.log(resp.data.data);
                 return [2 /*return*/];
         }
     });

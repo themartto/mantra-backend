@@ -10,7 +10,7 @@ const run = async () => {
   );
 
   const data: SubscriptionRequest = {
-    endpoint: 'https://2c4c3cf0c62e1c.lhr.life/statuses/payment/update'
+    endpoint: 'https://bcc6e694d7536c.lhr.life/statuses/payment/update'
   }
 
   // const resp = await circleApi.subscriptions.createSubscribtion(data);
@@ -21,9 +21,9 @@ const run = async () => {
   // const resp4 = await circleApi.subscriptions.deleteSubscribtion(resp.data.data[1].id);
   // const resp5 = await circleApi.subscriptions.deleteSubscribtion(resp.data.data[2].id);
 
-  // console.log(resp.data.data[0].subscriptionDetails)
-  // console.log(resp.data.data[1].subscriptionDetails)
-  // console.log(resp.data.data[2].subscriptionDetails)
+  console.log(resp.data.data[0].subscriptionDetails)
+  console.log(resp.data.data[1].subscriptionDetails)
+  console.log(resp.data.data[2].subscriptionDetails)
   console.log(resp.data.data)
 };
 
