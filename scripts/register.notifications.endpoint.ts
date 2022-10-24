@@ -10,11 +10,11 @@ const run = async () => {
   );
 
   const data: SubscriptionRequest = {
-    endpoint: 'https://6895f2c2ee6a93.lhr.life/statuses/payment/update'
+    endpoint: 'https://2c4c3cf0c62e1c.lhr.life/statuses/payment/update'
   }
 
   // const resp = await circleApi.subscriptions.createSubscribtion(data);
-  //
+
   const resp = await circleApi.subscriptions.listSubscriptions();
   //
   // const resp3 = await circleApi.subscriptions.deleteSubscribtion(resp.data.data[0].id);

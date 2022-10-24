@@ -20,48 +20,37 @@ export class PaymentsStatusController {
       const raw = await rawbody(req);
       const text = raw.toString().trim();
       const notification = JSON.parse(text);
-      if (notification.Type) {
-       console.log(notification)
-      } else {
-        try {
-          const notificationData = JSON.parse(notification.Message);
-          // console.log(notificationData)
-          if (notificationData.notificationType) {
-            if (notificationData.notificationType == 'settlements') {
-              // payment went well?
-              console.log(notificationData);
-              const payment = await this.circleApi.circleApi.payments.listPayments('', notificationData.settlement.id);
-              // console.log(payment.data.data[0]);
-              const paymentData: any = payment.data.data[0];
+      console.log(notification)
+      try {
+        const notificationData = JSON.parse(notification.Message);
+        // console.log(notificationData)
+        if (notificationData.notificationType) {
+          if (notificationData.notificationType == 'settlements') {
+            // payment went well?
+            // console.log(notificationData);
+            const payment = await this.circleApi.circleApi.payments.listPayments('', notificationData.settlement.id);
+            // console.log(payment.data.data[0]);
+            const paymentData: any = payment.data.data[0];
 
-              const paymentEntry = await this.paymentService.getPayment(paymentData.id);
+            const paymentEntry = await this.paymentService.getPayment(paymentData.id);
 
-              await this.paymentService.updatePaymentStatus(paymentEntry.paymentId, 'success');
+            await this.paymentService.updatePaymentStatus(paymentEntry.paymentId, 'success');
 
-              // TODO amount could be stored in our database
-              await this.circleApi.makeTransfer(
-                paymentData.amount.amount,
-                process.env.CHAIN_ADDRESS,
-                Chain.Eth,
-                paymentEntry.keplrAddress.keplrAddress,
-              );
-            }
-          } else {
-            // TODO handle
-            console.log(notificationData)
+            // TODO amount could be stored in our database
+            await this.circleApi.makeTransfer(
+              paymentData.amount.amount,
+              process.env.CHAIN_ADDRESS,
+              Chain.Eth,
+              paymentEntry.keplrAddress.keplrAddress,
+            );
           }
-        } catch (err) {
-          console.log(err);
+        } else {
+          // TODO handle
+          console.log(notification);
         }
+      } catch (err) {
+        console.log(err);
       }
     }
-//     const z = JSON.parse(data.Message)
-//     z.paymentId
-//     z.status
-//     await this.paymentService.updatePaymentStatus(
-//       'f18a43e0-c4c0-418d-b084-c5cf1e025f04',
-//       'confirmed'
-//     )
-//     this.circleApi.makeTransfer()
   }
 }
