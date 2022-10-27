@@ -109,7 +109,7 @@ export class CircleApiService {
     const transfer = new Transfer();
     transfer.transferId = transferData.data.data.id;
     transfer.keplrAddress = client;
-    transfer.txHash = transferData.data.data.transactionHash;
+    transfer.txHash = '0x00';
     transfer.status = 'pending';
 
     await this.transfersRepository.save(transfer);

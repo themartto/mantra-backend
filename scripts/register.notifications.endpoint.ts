@@ -10,13 +10,13 @@ const run = async () => {
   );
 
   const data: SubscriptionRequest = {
-    endpoint: 'https://bcc6e694d7536c.lhr.life/statuses/payment/update'
+    endpoint: 'https://local-run.testmeaway.com/statuses/payment/update'
   }
 
   // const resp = await circleApi.subscriptions.createSubscribtion(data);
-
-  const resp = await circleApi.subscriptions.listSubscriptions();
   //
+  const resp = await circleApi.subscriptions.listSubscriptions();
+
   // const resp3 = await circleApi.subscriptions.deleteSubscribtion(resp.data.data[0].id);
   // const resp4 = await circleApi.subscriptions.deleteSubscribtion(resp.data.data[1].id);
   // const resp5 = await circleApi.subscriptions.deleteSubscribtion(resp.data.data[2].id);

@@ -46,12 +46,11 @@ var run = function () { return __awaiter(void 0, void 0, void 0, function () {
             case 0:
                 circleApi = new circle_sdk_1.Circle(process.env.API_KEY, Boolean(process.env.DEV) ? circle_sdk_1.CircleEnvironments.sandbox : circle_sdk_1.CircleEnvironments.production);
                 data = {
-                    endpoint: 'https://bcc6e694d7536c.lhr.life/statuses/payment/update'
+                    endpoint: 'https://local-run.testmeaway.com/statuses/payment/update'
                 };
                 return [4 /*yield*/, circleApi.subscriptions.listSubscriptions()];
             case 1:
                 resp = _a.sent();
-                //
                 // const resp3 = await circleApi.subscriptions.deleteSubscribtion(resp.data.data[0].id);
                 // const resp4 = await circleApi.subscriptions.deleteSubscribtion(resp.data.data[1].id);
                 // const resp5 = await circleApi.subscriptions.deleteSubscribtion(resp.data.data[2].id);

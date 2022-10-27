@@ -9,10 +9,12 @@ import { Payment } from '../database/entities/payment';
 import { Client } from '../database/entities/client';
 import { ClientsController } from './clients.controller';
 import { Transfer } from '../database/entities/transfer';
+import { MantrachainModule } from '../mantrachain/mantrachain.module';
+import { MantrachainService } from '../mantrachain/mantrachain.service';
 
 @Module({
-  imports: [CircleApiModule, TypeOrmModule.forFeature([Client, Payment, Transfer])],
+  imports: [CircleApiModule, TypeOrmModule.forFeature([Client, Payment, Transfer]), MantrachainModule],
   controllers: [ClientsController, PaymentsController, PaymentsStatusController],
-  providers: [PaymentsService, CircleApiService],
+  providers: [PaymentsService, CircleApiService, MantrachainService],
 })
 export class PaymentsModule {}

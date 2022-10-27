@@ -20,42 +20,42 @@ export class EthersService {
   }
 
   async onModuleInit() {
-    this.provider = new ethers.providers.WebSocketProvider(process.env.CHAIN_WS);
-
-    const filter = {
-      address: process.env.USDC_CONTRACT,
-      topics: [
-        // event
-        utils.id('Transfer(address,address,uint256)'),
-        null, // from
-        hexZeroPad(process.env.CHAIN_ADDRESS, 32), //to
-        // amount
-      ],
-    };
-    this.provider.on(filter, async (data) => {
-      let entry = await this.transferRepository.findOne({
-        where: {
-          txHash: data.transactionHash,
-        },
-        relations: {
-          keplrAddress: true,
-        },
-      });
-
-      if (entry) {
-        entry.status = 'confirmed';
-
-        await this.transferRepository.save(entry);
-
-        console.log('mint tokens');
-        await this.mantrachainService.mintTokens(
-          entry.keplrAddress.keplrAddress,
-          data.topics[2],
-          data.transactionHash,
-        );
-      } else {
-        console.log('no entry in the db for this transaction')
-      }
-    });
+    // this.provider = new ethers.providers.WebSocketProvider(process.env.CHAIN_WS);
+    //
+    // const filter = {
+    //   address: process.env.USDC_CONTRACT,
+    //   topics: [
+    //     // event
+    //     utils.id('Transfer(address,address,uint256)'),
+    //     null, // from
+    //     hexZeroPad(process.env.CHAIN_ADDRESS, 32), //to
+    //     // amount
+    //   ],
+    // };
+    // this.provider.on(filter, async (data) => {
+    //   let entry = await this.transferRepository.findOne({
+    //     where: {
+    //       txHash: data.transactionHash,
+    //     },
+    //     relations: {
+    //       keplrAddress: true,
+    //     },
+    //   });
+    //
+    //   if (entry) {
+    //     entry.status = 'confirmed';
+    //
+    //     await this.transferRepository.save(entry);
+    //
+    //     console.log('mint tokens');
+    //     await this.mantrachainService.mintTokens(
+    //       entry.keplrAddress.keplrAddress,
+    //       data.topics[2],
+    //       data.transactionHash,
+    //     );
+    //   } else {
+    //     console.log('no entry in the db for this transaction')
+    //   }
+    // });
   }
 }
