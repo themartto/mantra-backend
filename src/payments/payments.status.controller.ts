@@ -88,7 +88,7 @@ export class PaymentsStatusController {
     transfer.status = message.transfer.status;
 
     if (message.transfer.status == 'complete') {
-      await this.mantrachainService.mintTokens(
+      await this.mantrachainService.mint(
           transfer.keplrAddress.keplrAddress,
           message.transfer.amount.amount,
           transfer.txHash

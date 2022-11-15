@@ -48,7 +48,7 @@ export class EthersService {
     //     await this.transferRepository.save(entry);
     //
     //     console.log('mint tokens');
-    //     await this.mantrachainService.mintTokens(
+    //     await this.mantrachainService.mint(
     //       entry.keplrAddress.keplrAddress,
     //       data.topics[2],
     //       data.transactionHash,
